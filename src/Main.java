@@ -64,7 +64,9 @@ public class Main {
             System.out.printf("  %d  /  %s  /  %s  \n", article.getId(), article.getTitle(), article.getBody());
           }
         }
-      } else if (cmd.startsWith("article detail ")) {
+      }
+      // 게시글 상세보기
+      else if (cmd.startsWith("article detail ")) {
         // 명령어 뒤의 문자타입의 숫자를 정수로 변환하여 id 지정
         int id = Integer.parseInt(cmd.split(" ")[2]);
 
@@ -76,13 +78,33 @@ public class Main {
             break;
           }
         }
-        if(foundArticle == null){
+        if (foundArticle == null) {
           System.out.println("해당 게시글은 없습니다.");
           continue;
         }
         System.out.println("번호 : " + foundArticle.getId());
         System.out.println("제목 : " + foundArticle.getTitle());
         System.out.println("내용 : " + foundArticle.getBody());
+      }
+      // 게시글 삭제
+      else if (cmd.startsWith("article delete")) {
+        int id = Integer.parseInt(cmd.split(" ")[2]);
+
+        Article foundArticle = null;
+
+        for (Article article : articles) {
+          if (article.getId() == id) {
+            foundArticle = article;
+            break;
+          }
+        }
+        if (foundArticle == null) {
+          System.out.println("해당 게시글은 없습니다.");
+          continue;
+        }
+        // 해당 게시글 삭제
+        articles.remove(foundArticle);
+        System.out.println(id + "번 글이 삭제되었습니다.");
       }
     }
     System.out.println(" == 프로그램 종료 ==");
