@@ -3,14 +3,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
+  // 게시글 저장소 만들기 (test data 생성으로 위치 변경)
+  static List<Article> articles = new ArrayList<>();
+
   public static void main(String[] args) {
     // 프로그램 실행 확인
     System.out.println(" == 프로그램 시작 ==");
     //
     Scanner sc = new Scanner(System.in);
 
-    // 게시글 저장소 만들기
-    List<Article> articles = new ArrayList<>();
+    //테스트 데이서 실행
+    makeTestDate();
 
     // 게시글 순서 확인(변수 선언)
     int lastArticle = 0;
@@ -71,13 +75,8 @@ public class Main {
         int id = Integer.parseInt(cmd.split(" ")[2]);
 
         // 게시글 찾기
-        Article foundArticle = null;
-        for (Article article : articles) {
-          if (article.getId() == id) {
-            foundArticle = article;
-            break;
-          }
-        }
+        Article foundArticle = getArticeById(id);
+
         if (foundArticle == null) {
           System.out.println("해당 게시글은 없습니다.");
           continue;
@@ -92,14 +91,9 @@ public class Main {
       else if (cmd.startsWith("article delete ")) {
         int id = Integer.parseInt(cmd.split(" ")[2]);
 
-        Article foundArticle = null;
+        // 게시글 찾기
+        Article foundArticle = getArticeById(id);
 
-        for (Article article : articles) {
-          if (article.getId() == id) {
-            foundArticle = article;
-            break;
-          }
-        }
         if (foundArticle == null) {
           System.out.println("해당 게시글은 없습니다.");
           continue;
@@ -112,14 +106,9 @@ public class Main {
       else if (cmd.startsWith("article modify ")) {
         int id = Integer.parseInt(cmd.split(" ")[2]);
 
-        Article foundArticle = null;
+        // 게시글 찾기
+        Article foundArticle = getArticeById(id);
 
-        for (Article article : articles) {
-          if (article.getId() == id) {
-            foundArticle = article;
-            break;
-          }
-        }
         if (foundArticle == null) {
           System.out.println("해당 게시글은 없습니다.");
         }
@@ -142,5 +131,22 @@ public class Main {
     }
     System.out.println(" == 프로그램 종료 ==");
     sc.close();
+  }
+  // 게시글 찾기, 중복제거
+  private static Article getArticeById(int id) {
+    for (Article article : articles) {
+      if (article.getId() == id) {
+        return article;
+      }
+    }
+    return null;
+  }
+
+  //게시판 테스트 데이터 생성
+  private static void makeTestDate(){
+    System.out.println("== 테스트 데이터 생성 ==");
+    articles.add(new Article(1, Util.getNowStr(), Util.getNowStr(), "제목1", "내용1"));
+    articles.add(new Article(2, Util.getNowStr(), Util.getNowStr(), "제목2", "내용2"));
+    articles.add(new Article(3, Util.getNowStr(), Util.getNowStr(), "제목3", "내용3"));
   }
 }
